@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://thymeleaf.org">
+
+<head th:replace="~{ _layout :: header( _, _, _) }">
+    <title>Accueil</title>
+</head>
+
+<body>
+
+    <nav th:replace="~{ _layout :: menu }">
+
+    </nav>
+
+    <div class="container mt-3">
+
+        <h1><i class="fa-solid fa-house"></i> Conditions generales de vente</h1>
+
+        <div class="row">
+            <div th:each="i : ${ #numbers.sequence(1, 10) }" class="col-3">
+                <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+                    <div class="card-header">Article [[${i}]]</div>
+                    <div class="card-body">
+                        <h4 class="card-title">Primary card title</h4>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
