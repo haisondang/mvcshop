@@ -24,17 +24,28 @@
             
             <div class="form-group">
                 <label for="designation">Designation</label>
-                <input th:field="*{designation}" type="text" name="designation" id="designation" class="form-control">
-            </div>
+                <input th:field="*{designation}" type="text" name="designation" id="designation" 
+                th:class=" ${#fields.hasErrors('designation') ? 'form-control is-invalid' : 'form-control' }">
+            <div class="invalid-feedback" th:errors="*{designation}"></div>
 
             <div class="form-group">
                 <label for="quantite">Quantite</label>
-                <input th:field="*{quantite}" type="number" name="quantite" id="quantite" class="form-control">
+                <input th:field="*{quantite}" type="number" name="quantite" id="quantite"
+                        th:class=" ${#fields.hasErrors('quantite') ? 'form-control is-invalid' : 'form-control' }">
+                <div class="invalid-feedback" th:errors="*{quantite}"></div>
             </div>
 
             <div class="form-group">
                 <label for="prix">Prix</label>
-                <input th:field="*{prix}" type="number" step="0.01" name="prix" id="prix" class="form-control">
+                <input th:field="*{prix}" type="number" step="0.01" name="prix" id="prix" 
+                    th:class=" ${#fields.hasErrors('prix') ? 'form-control is-invalid' : 'form-control' }">
+            <div class="invalid-feedback" th:errors="*{prix}"></div>
+
+            <div class="form-group">
+                <label for="categorie">Categorie</label>
+                <select th:field="*{categorie}" id="categorie" name="categorie" class="form-control">
+                    <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.nom}">Category Name</option>
+                </select>
             </div>
 
             <div class="form-group mt-3">
