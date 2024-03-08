@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://thymeleaf.org">
+
+<head th:replace="~{ _layout :: header( ~{::title}, _, _) }">
+    <title>Accueil</title>
+</head>
+
+<body>
+
+    <nav th:replace="~{ _layout :: menu }">
+
+    </nav>
+
+    <div class="container mt-3">
+
+        <h1 th:if="${produit.id != null}">Edition d'un produit</h1>
+        <h1 th:if="${produit.id == null}">Nouveau produit</h1>
+
+        <form th:action="@{/produitSave}" th:object="${produit}" method="post">
+            <input type="hidden" name="mc" th:value="${mc}">
+            <input type="hidden" name="p" th:value="${p}"> 
+            <input type="hidden" name="s" th:value="${s}">
+            <input type="hidden" name="id" th:field="*{id}">
+            
+            <div class="form-group">
+                <label for="designation">Designation</label>
+                <input th:field="*{designation}" type="text" name="designation" id="designation" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="quantite">Quantite</label>
+                <input th:field="*{quantite}" type="number" name="quantite" id="quantite" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="prix">Prix</label>
+                <input th:field="*{prix}" type="number" step="0.01" name="prix" id="prix" class="form-control">
+            </div>
+
+            <div class="form-group mt-3">
+                <button class="btn btn-success" type="submit">Valider</button>
+                <a th:href="@{/produits(p=${p}, s=${s}, mc=${mc})}" class="btn btn-danger">Annuler</a>
+                
+            </div>
+        </form>
+
+    </div>
+
+</body>
+</html>

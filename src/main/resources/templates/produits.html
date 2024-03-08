@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://thymeleaf.org">
+
+<head th:replace="~{ _layout :: header( ~{::title}, _, ~{::script}) }">
+    <title>Accueil</title>
+    <script>
+        function confirmDelete( e ){
+            if ( ! confirm('Voulez-vous reellement supprimer ce produit ?')){
+                e.preventDefault();
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <nav th:replace="~{ _layout :: menu }">
+
+    </nav>
+
+    <div class="container mt-3">
+
+        <div class="row">
+            <div class="col">
+                <h1>Nos produits</h1>
+            </div>
+            <div class="col">
+
+                <form th:action="@{/produits}" method="get">
+                    <div class="input-group">
+                        <input type="text" id="mc" name="mc" th:value="${mots}" class="form-control" placeholder="Mots cles">
+                        <button class="btn btn-success">Rechercher</button>
+                        <a th:href="@{/produits}" class="btn btn-primary">RAZ</a>
+                    </div>
+                    <input type="hidden" name="s" th:value="${infoPage.size}">
+                </form>
+            </div>
+            <div class="col">
+                <a th:href="@{/produitEdit(p=${infoPage.number}, s=${infoPage.size}, mc=${mots})}" class="btn btn-success">Ajouter un article</a>
+            </div>
+            
+        </div>
+
+        
+
+        <ul>
+            <li th:each=" prod : ${produits} " th:text="${prod.designation}" > Du texte pour rien </li>
+        </ul>
+
+        <h3 class="text-center" th:if="${produits.size()==0}">Aucun produit trouve !</h3>
+        <table class="table table-hover" th:if="${produits.size()>0}">
+            <thead>
+                <th scope="col">ID</th>
+                <th scope="col">Designation</th>
+                <th scope="col">Prix</th>
+                <th scope="col">Quantite</th>
+                <th scope="col"></th>
+            </thead>
+            <tbody>
+                <tr th:each=" prod : ${produits}" >
+                    <td th:text="${prod.id}" ></td>
+                    <td th:text="${prod.designation}" ></td>
+                    <td th:text="${ #numbers.formatDecimal(prod.prix, 1, 2, 'COMMA') + ' &euro;'  }" ></td>
+                    <td th:text="${prod.quantite<=0 ? 'Indisponible' : prod.quantite }" ></td>
+                    <td>
+                        <a th:href="@{/produitEdit(id=${prod.id}, p=${infoPage.number}, s=${infoPage.size}, mc=${mots})}"  class="btn btn-success">Modifier</a>
+                        <a th:href="@{/produitDelete(id=${prod.id}, p=${infoPage.number}, s=${infoPage.size}, mc=${mots})}" onclick="confirmDelete(event)" class="btn btn-warning">Supprimer</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="row">
+
+            <div class="col">
+                <ul class="pagination" th:if="${infoPage.totalPages>1}">
+                    <li th:class="${infoPage.first} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" th:href="@{/produits(p=${infoPage.number-1}, s=${infoPage.size} , mc=${mots})}">&laquo;</a>
+                    </li>
+                    <li class="page-item" th:each="i : ${ #numbers.sequence( 1, infoPage.totalPages ) }" th:classappend="${infoPage.number==i-1} ? 'active' : '' ">
+                        <a class="page-link" th:href="@{/produits(p=${i-1}, s=${infoPage.size} , mc=${mots})}" th:text="${i}"></a>
+                    </li>
+                    <li th:class="${infoPage.last} ? 'page-item disabled' : 'page-item'">
+                        <a class="page-link" th:href="@{/produits(p=${infoPage.number+1}, s=${infoPage.size} , mc=${mots})}">&raquo;</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col">
+
+                <form th:action="@{/produits}" method="get">
+                    <div class="form-group">
+                        <label for="size">Produits par page</label>
+                        <select name="s" id="size" class="form-control" onchange="this.form.submit()">
+                            <option th:each="s : ${ #numbers.sequence(5,50,5)}" th:value="${s}" th:text="${s}" th:selected="${infoPage.size==5}">#</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+          </div>
+    </div>
+
+</body>
+</html>
