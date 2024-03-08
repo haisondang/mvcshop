@@ -29,12 +29,19 @@ public class MvcshopApplication {
 			// repoProd.save(new Produit("Cabecou", 1.55, 450));
 
 			// repoProd.findAll().forEach(System.out::println );
+			Categorie categorie1 = new Categorie("Fromages frais");
+			Categorie categorie2 = new Categorie("Fromages à pâte molle");
+			Categorie categorie3 = new Categorie("Fromages à pâte pressée");
 
-			//  repoCat.save(new Categorie("Fromages frais"));
-			//  repoCat.save(new Categorie("Fromages à pâte molle"));
-			//  repoCat.save(new Categorie("Fromages à pâte pressée"));
+			  repoCat.save(categorie1);
+			  repoCat.save(categorie2);
+			  repoCat.save(categorie3);
 			//  repoCat.save(new Categorie("Fromages à pâte persillée"));
 			//  repoCat.findAll().forEach(System.out::println );
+			
+			 repoProd.save(new Produit("La vache qui rit", 19.90, 49, categorie1));
+			 repoProd.save(new Produit("Emmental", 24.05, 49, categorie2));
+			 repoProd.save(new Produit("Cheddar", 1.55, 450, categorie3));
 			System.out.println("START!!!!");
 		};
 	}
